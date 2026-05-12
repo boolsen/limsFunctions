@@ -19,7 +19,7 @@ The app uses `functions.json` as its local search database.
 
 ## Regenerating data
 
-To regenerate `functions.json` from the SQLite database, run the generator script:
+To regenerate `functions.json` from the source text file, run the generator script:
 
 ```bash
 python3 app/generate_functions_json.py

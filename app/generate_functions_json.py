@@ -1,19 +1,33 @@
 #!/usr/bin/env python3
 import json
-import sqlite3
+import sys
 from pathlib import Path
 
-DB_PATH = Path(__file__).resolve().parent.parent / "lims_functions.db"
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+
+from parse_lims_functions import load_lines, parse_definitions
+
+SOURCE_PATH = ROOT / "limsFunctions_text_format.txt"
 OUT_PATH = Path(__file__).resolve().parent / "functions.json"
 
-if not DB_PATH.exists():
-    raise FileNotFoundError(f"Database not found at {DB_PATH}")
+if not SOURCE_PATH.exists():
+    raise FileNotFoundError(f"Source file not found at {SOURCE_PATH}")
 
-with sqlite3.connect(DB_PATH) as conn:
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
-    cur.execute("SELECT name, group_name, purpose, syntax, comments, example, returns FROM functions ORDER BY name")
-    rows = [dict(row) for row in cur.fetchall()]
+lines = load_lines(SOURCE_PATH)
+functions = parse_definitions(lines)
+rows = [
+    {
+        "name": func["name"],
+        "group_name": func.get("group_name"),
+        "purpose": func.get("purpose"),
+        "syntax": func.get("syntax"),
+        "comments": func.get("comments"),
+        "example": func.get("example"),
+        "returns": func.get("returns"),
+    }
+    for func in functions
+]
 
 with open(OUT_PATH, "w", encoding="utf-8") as fh:
     json.dump(rows, fh, ensure_ascii=False, indent=2)
