@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LIMS Basic Function Search</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main>
+    <h1>LIMS Function Search</h1>
+    <p>Search by function name or keyword to view the definition of a LIMS Basic function.</p>
+
+    <form id="search-form">
+      <label for="query">Function name or keyword</label>
+      <input type="search" id="query" name="query" placeholder="e.g. GetTableIncrement or increment" autocomplete="off" />
+      <button type="submit">Search</button>
+    </form>
+
+    <div id="status">Loading function definitions...</div>
+    <div id="results"></div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

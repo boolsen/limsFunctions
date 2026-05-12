@@ -1,0 +1,109 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f5f7fb;
+  color: #202a3b;
+}
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+p {
+  color: #4a5568;
+  line-height: 1.7;
+}
+
+form {
+  display: grid;
+  gap: 12px;
+  margin: 24px 0 32px;
+}
+
+label {
+  font-weight: 600;
+}
+
+input[type="search"] {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+button {
+  width: fit-content;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  background: #2563eb;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+#status {
+  margin-top: 12px;
+  color: #475569;
+}
+
+.result-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+}
+
+.result-card h2 {
+  margin: 0 0 12px;
+}
+
+.result-card .meta {
+  margin-bottom: 16px;
+  color: #475569;
+}
+
+.result-card pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.result-card section {
+  margin-bottom: 20px;
+}
+
+.result-card section:last-child {
+  margin-bottom: 0;
+}
+
+.no-results {
+  color: #334155;
+  padding: 24px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+}

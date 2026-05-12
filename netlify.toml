@@ -1,0 +1,5 @@
+[build]
+publish = "app"
+
+[context.production]
+environment = { }

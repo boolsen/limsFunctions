@@ -1,0 +1,12 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd /workspaces/limsFunctions && python3 - <<'PY'\nimport sqlite3\nconn = sqlite3\\.connect\\('lims_functions\\.db'\\)\nconn\\.row_factory = sqlite3\\.Row\ncur = conn\\.cursor\\(\\)\ncur\\.execute\\(\"SELECT name, purpose, syntax, comments, example, returns FROM functions WHERE name='ArrayMerge'\"\\)\nrow = cur\\.fetchone\\(\\)\nprint\\('row repr', row\\)\nprint\\('tuple', tuple\\(row\\)\\)\nprint\\('name', row\\['name'\\]\\)\nfor k in \\['purpose','syntax','comments','example','returns'\\]:\n    print\\(k, row\\[k\\] is None, repr\\(row\\[k\\]\\)\\[:60\\]\\)\nconn\\.close\\(\\)\nPY$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^cd /workspaces/limsFunctions && python3 parse_lims_functions\\.py --build && python3 - <<'PY'\nimport sqlite3\nconn = sqlite3\\.connect\\('lims_functions\\.db'\\)\nconn\\.row_factory = sqlite3\\.Row\ncur = conn\\.cursor\\(\\)\ncur\\.execute\\(\"SELECT name, purpose IS NOT NULL AS has_purpose, syntax IS NOT NULL AS has_syntax, comments IS NOT NULL AS has_comments, example IS NOT NULL AS has_example, returns IS NOT NULL AS has_returns FROM functions WHERE name='ArrayMerge'\"\\)\nrow = cur\\.fetchone\\(\\)\nprint\\('row', tuple\\(row\\)\\)\ncur\\.execute\\(\"SELECT purpose, syntax, comments, example, returns FROM functions WHERE name='ArrayMerge'\"\\)\nrow = cur\\.fetchone\\(\\)\nprint\\('purpose starts', repr\\(row\\[0\\]\\[:80\\]\\)\\)\nprint\\('syntax starts', repr\\(row\\[1\\]\\[:80\\]\\)\\)\nprint\\('returns starts', repr\\(row\\[4\\]\\[:80\\]\\)\\)\nprint\\('returns contains ArrayMin\\?', 'ArrayMin' in row\\[4\\]\\)\nconn\\.close\\(\\)\nPY$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
