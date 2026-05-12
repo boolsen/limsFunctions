@@ -74,13 +74,21 @@ def extract_section_text(section: str, lines: List[str], start: int, end: int) -
             return lines[j].strip() == "Purpose:"
         return False
 
+    def is_new_section_header(text: str) -> bool:
+        stripped = text.strip()
+        if stripped == "Function":
+            return True
+        if re.match(r"^\d+(?:\.\d+)*\s+\S", stripped):
+            return True
+        return False
+
     for i in range(start, end):
         text = lines[i]
         label = text.strip().rstrip(":")
         if label == normalized_section:
             in_section = True
             continue
-        if in_section and (label in SECTION_LABELS or next_nonempty_is_purpose(i)):
+        if in_section and (label in SECTION_LABELS or next_nonempty_is_purpose(i) or is_new_section_header(text)):
             break
         if in_section:
             content_lines.append(text)
