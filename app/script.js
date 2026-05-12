@@ -1,10 +1,16 @@
 const statusElement = document.getElementById('status');
 const resultsElement = document.getElementById('results');
+const suggestionsElement = document.getElementById('suggestions');
 const form = document.getElementById('search-form');
 const queryInput = document.getElementById('query');
 
 let functions = [];
+let functionNames = [];
 let functionMap = new Map();
+
+function normalize(text) {
+  return String(text || '').trim().toLowerCase();
+}
 
 function formatSection(title, text) {
   if (!text) return '';
@@ -48,8 +54,42 @@ function showResults(items) {
   resultsElement.innerHTML = items.map(renderFunction).join('');
 }
 
+function hideSuggestions() {
+  suggestionsElement.innerHTML = '';
+  suggestionsElement.classList.add('hidden');
+}
+
+function renderSuggestions(matches) {
+  if (!matches.length) {
+    hideSuggestions();
+    return;
+  }
+
+  suggestionsElement.innerHTML = matches
+    .map(
+      (name) =>
+        `<div class="suggestion-item" role="option" tabindex="0">${escapeHtml(name)}</div>`
+    )
+    .join('');
+  suggestionsElement.classList.remove('hidden');
+}
+
+function updateSuggestions(query) {
+  const normalized = normalize(query);
+  if (!normalized) {
+    hideSuggestions();
+    return;
+  }
+
+  const matches = functionNames
+    .filter((name) => name.toLowerCase().includes(normalized))
+    .slice(0, 8);
+
+  renderSuggestions(matches);
+}
+
 function searchFunctions(query) {
-  const normalized = query.trim().toLowerCase();
+  const normalized = normalize(query);
   if (!normalized) {
     setStatus('Enter a function name or keyword above to search.');
     resultsElement.innerHTML = '';
@@ -87,6 +127,24 @@ form.addEventListener('submit', (event) => {
   searchFunctions(queryInput.value);
 });
 
+queryInput.addEventListener('input', (event) => {
+  updateSuggestions(event.target.value);
+});
+
+suggestionsElement.addEventListener('click', (event) => {
+  const item = event.target.closest('.suggestion-item');
+  if (!item) return;
+  queryInput.value = item.textContent;
+  hideSuggestions();
+  searchFunctions(item.textContent);
+});
+
+document.addEventListener('click', (event) => {
+  if (!form.contains(event.target)) {
+    hideSuggestions();
+  }
+});
+
 window.addEventListener('load', async () => {
   try {
     const response = await fetch('functions.json');
@@ -96,8 +154,9 @@ window.addEventListener('load', async () => {
 
     functions = await response.json();
     functions.forEach((func) => {
-      functionMap.set(func.name.toLowerCase(), func);
+      functionMap.set(normalize(func.name), func);
     });
+    functionNames = functions.map((func) => func.name);
 
     setStatus('Loaded function definitions. Search by name or keyword.');
   } catch (error) {

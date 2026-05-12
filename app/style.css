@@ -58,6 +58,36 @@ button:hover {
   background: #1d4ed8;
 }
 
+.suggestions {
+  position: relative;
+  max-height: 320px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+  padding: 8px 0;
+  margin-top: -8px;
+  z-index: 10;
+}
+
+.suggestions.hidden {
+  display: none;
+}
+
+.suggestion-item {
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+.suggestion-item:hover,
+.suggestion-item[aria-selected="true"] {
+  background: #eff6ff;
+}
+
 #status {
   margin-top: 12px;
   color: #475569;
